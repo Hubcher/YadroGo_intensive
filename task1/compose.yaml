@@ -1,0 +1,29 @@
+services:
+
+  hello:
+    image: hello:latest
+    build: hello
+    restart: unless-stopped
+    ports:
+      - 28080:8080
+    volumes:
+      - ./hello/config.yaml:/config.yaml
+    environment:
+      - HELLO_PORT=8080
+
+  fileserver:
+    image: fileserver:latest
+    build: fileserver
+    restart: unless-stopped
+    ports:
+      - 28081:8080
+    volumes:
+      - ./fileserver/config.yaml:/config.yaml
+    environment:
+      - FILESERVER_PORT=8080
+
+  tests:
+    image: tests:latest
+    build: tests
+    restart: "no"
+    entrypoint: "true"
