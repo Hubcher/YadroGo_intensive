@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package petname;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "yadro.com/course/proto/petname";
+
+message PetnameRequest {
+  int64  words     = 1;    
+  string separator = 2;
+}
+
+message PetnameStreamRequest {
+  int64  words     = 1;    
+  string separator = 2;
+  int64  names     = 3;
+}
+
+message PetnameResponse {
+  string name = 1;
+}
+
+// Service
+service PetnameGenerator {
+  rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+
+  // Send number of words and separator, receive pet name
+  rpc Generate(PetnameRequest) returns (PetnameResponse) {}
+
+  // Send number of words, separator and count of animals, receive pet names
+  rpc GenerateMany(PetnameStreamRequest) returns (stream PetnameResponse) {}
+}

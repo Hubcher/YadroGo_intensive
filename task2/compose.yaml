@@ -1,0 +1,34 @@
+services:
+
+  petname:
+    image: petname:latest
+    build: petname
+    container_name: petname
+    restart: unless-stopped
+    volumes:
+      - ./petname/config.yaml:/config.yaml
+    ports:
+      - 28081:8080
+    environment:
+      - PETNAME_GRPC_PORT=8080
+
+  words:
+    image: words:latest
+    build:
+      context: search-services
+      dockerfile: Dockerfile.words
+    container_name: words
+    restart: unless-stopped
+    volumes:
+      - ./search-services/words/config.yaml:/config.yaml
+    ports:
+      - 28082:8080
+    environment:
+      - WORDS_GRPC_PORT=8080
+
+  tests:
+    image: tests:latest
+    build: tests
+    container_name: tests
+    restart: "no"
+    entrypoint: "true"
