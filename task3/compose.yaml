@@ -1,0 +1,37 @@
+services:
+
+  api:
+    image: api:latest
+    build:
+      context: search-services
+      dockerfile: Dockerfile.api
+    container_name: api
+    restart: unless-stopped
+    ports:
+      - 28080:8080
+    volumes:
+      - ./search-services/api/config.yaml:/config.yaml
+    environment:
+      - HTTP_SERVER_ADDRESS=:8080
+      - WORDS_ADDRESS=words:8080
+
+  words:
+    image: words:latest
+    build:
+      context: search-services
+      dockerfile: Dockerfile.words
+    container_name: words
+    restart: unless-stopped
+    ports:
+      - 28081:8080
+    volumes:
+      - ./search-services/words/config.yaml:/config.yaml
+    environment:
+      - PORT=8080
+
+  tests:
+    image: tests:latest
+    build: tests
+    container_name: tests
+    restart: "no"
+    entrypoint: "true"
