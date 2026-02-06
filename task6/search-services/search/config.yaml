@@ -1,0 +1,6 @@
+log_level: DEBUG
+update_address: localhost:81
+words_address: localhost:82
+search_address: localhost:83
+db_address: localhost:1234
+index_ttl: 20s
